@@ -4,12 +4,23 @@ import random
 #----FUNCTIONS------
 def clear():
    print("\033[H\033[J", end="")
-  
-#-----MAIN ROUTINE -----
-with open('wordlist.txt', 'r') as f:
-  words = f.readlines()
 
-word = random.choice(words)[:-1]
+def input_checker(guess):
+   #testing if a letter is inputted
+  if guess.isalpha() == True:
+    print()
+  else:
+    print("Sorry, please type in a letter")
+
+  #testing if there is only one letter inputted
+  if len(guess) == 1:
+    print()
+  else:
+    print("Sorry, please type in only one letter")
+    print()
+    guess = input(f"Allowed guesses Left {allowed_guesses}, Next Guess: ")
+    guesses.append(guess.lower())
+    print()
 
 def print_alphabet():
     for i in range(0,2):
@@ -18,6 +29,14 @@ def print_alphabet():
             if j != 0:
                 print ("|", end="")
         print ("")
+  
+#-----MAIN ROUTINE -----
+with open('wordlist.txt', 'r') as f:
+  words = f.readlines()
+
+word = random.choice(words)[:-1]
+
+
   
 allowed_guesses = 9
 guesses = []
@@ -40,21 +59,7 @@ while not done:
   guess = input(f"Allowed guesses Left {allowed_guesses}, Next Guess: ")
   guesses.append(guess.lower())  
 
-   #testing if a letter is inputted
-  if guess.isalpha() == True:
-    print()
-  else:
-    print("Sorry, please type in a letter")
-
-  #testing if there is only one letter inputted
-  if len(guess) == 1:
-    print()
-  else:
-    print("Sorry, please type in only one letter")
-    print()
-    guess = input(f"Allowed guesses Left {allowed_guesses}, Next Guess: ")
-    guesses.append(guess.lower())
-    print()
+  input_checker(guess)
 
   if guess.lower() not in word.lower():
     allowed_guesses -= 1
