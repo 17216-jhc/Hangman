@@ -1,11 +1,6 @@
 #Source: https://www.youtube.com/watch?v=5x6iAKdJB6U
 import random
 
-#----FUNCTIONS------
-def clear():
-   print("\033[H\033[J", end="")
-  
-#-----MAIN ROUTINE -----
 with open('wordlist.txt', 'r') as f:
   words = f.readlines()
 
@@ -13,22 +8,25 @@ word = random.choice(words)[:-1]
 
 def print_alphabet():
     for i in range(0,2):
-        for j in range(0,14):
-            print (map[i][j], end="")
-            if j != 0:
+        for j in range(0,13):
+            print (map[2-i][j], end="")
+            if j != 2:
                 print ("|", end="")
         print ("")
-  
+
+
+used_letters = [[" "," "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+                [" "," "," ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "]]
+
 allowed_guesses = 9
 guesses = []
 done = False
 
-map= [["|", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" , "L", "M"],
-      ["|", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X" , "Y", "Z"]]
+map= [["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" , "L", "M"],
+      ["N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X" , "Y", "Z"]]
 
 #make it only accept letters, 
 while not done:
-  #clear()
   print_alphabet()
   for letter in word:
     if letter.lower() in guesses:
@@ -38,29 +36,13 @@ while not done:
   print("")
 
   guess = input(f"Allowed guesses Left {allowed_guesses}, Next Guess: ")
-  guesses.append(guess.lower())  
-
-   #testing if a letter is inputted
-  if guess.isalpha() == True:
-    print()
-  else:
-    print("Sorry, please type in a letter")
-
-  #testing if there is only one letter inputted
-  if len(guess) == 1:
-    print()
-  else:
-    print("Sorry, please type in only one letter")
-    print()
-    guess = input(f"Allowed guesses Left {allowed_guesses}, Next Guess: ")
-    guesses.append(guess.lower())
-    print()
-
+  guesses.append(guess.lower())
+  
   if guess.lower() not in word.lower():
     allowed_guesses -= 1
     if allowed_guesses == 0:
       break
-      
+
   done = True
   for letter in word:
     if letter.lower() not in guesses:
